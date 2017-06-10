@@ -50,7 +50,8 @@ function getColorByNumber(number) {
     var colorValue = {
         0: 0x00FF00,
         2: 0xFF0000,
-        4: 0x0000FF
+        4: 0x0000FF,
+        8: 0xFFFF00
     };
 
     return colorValue[number];
@@ -66,6 +67,27 @@ drawCell(rowIndex, columnIndex);
 document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight') {
         moveCellToRight();
+        flushUI();
+    }
+
+    if (event.key === 'ArrowUp') {
+        rotateArray(1);
+        moveCellToRight();
+        rotateArray(3);
+        flushUI();
+    }
+
+    if (event.key === 'ArrowLeft') {
+        rotateArray(2);
+        moveCellToRight();
+        rotateArray(2);
+        flushUI();
+    }
+
+    if (event.key === 'ArrowDown') {
+        rotateArray(3);
+        moveCellToRight();
+        rotateArray(1);
         flushUI();
     }
 });
@@ -100,4 +122,18 @@ function findTheFirstRightCell(rowIndex, columnIndex) {
     }
 
     return -1;
+}
+
+function rotateArray(rotateCount = 1) {
+    for (var i = 0 ; i < rotateCount; i ++) {
+        grid = rotateArrayToRightOnce(grid);
+    }
+
+    function rotateArrayToRightOnce(array) {
+        return array.map((row, rowIndex) => {
+            return row.map((item, columnIndex) => {
+                return array[3 - columnIndex][rowIndex];
+            })
+        })
+    }
 }
