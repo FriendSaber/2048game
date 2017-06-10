@@ -83,7 +83,7 @@ var addRandomCell = function () {
     var rowIndex = generateRandomNumber();
     var columnIndex = generateRandomNumber();
 
-    while (grid[rowIndex][columnIndex] !== 0 ) {
+    while (grid[rowIndex][columnIndex] !== 0) {
         rowIndex = generateRandomNumber();
         columnIndex = generateRandomNumber();
     }
@@ -106,6 +106,9 @@ document.addEventListener('keydown', function (event) {
             addRandomCell();
         }
         flushUI();
+        if (checkGameOver()) {
+            alert('Game over.');
+        }
     }
 
     if (event.key === 'ArrowUp') {
@@ -116,6 +119,9 @@ document.addEventListener('keydown', function (event) {
             addRandomCell();
         }
         flushUI();
+        if (checkGameOver()) {
+            alert('Game over.');
+        }
     }
 
     if (event.key === 'ArrowLeft') {
@@ -126,6 +132,9 @@ document.addEventListener('keydown', function (event) {
             addRandomCell();
         }
         flushUI();
+        if (checkGameOver()) {
+         alert('Game over.');
+        }
     }
 
     if (event.key === 'ArrowDown') {
@@ -136,6 +145,9 @@ document.addEventListener('keydown', function (event) {
             addRandomCell();
         }
         flushUI();
+        if (checkGameOver()) {
+            alert('Game over.');
+        }
     }
 });
 
@@ -155,7 +167,7 @@ function moveCellToRight() {
             var currentIndex = theEmptyCellIndex === -1 ? columnIndex : theEmptyCellIndex;
 
             if (grid[rowIndex][currentIndex] === grid[rowIndex][currentIndex + 1]) {
-                grid[rowIndex][currentIndex+ 1] += grid[rowIndex][currentIndex];
+                grid[rowIndex][currentIndex + 1] += grid[rowIndex][currentIndex];
                 grid[rowIndex][currentIndex] = 0;
 
                 score += grid[rowIndex][currentIndex + 1];
@@ -182,7 +194,7 @@ function findTheFirstRightCell(rowIndex, columnIndex) {
 }
 
 function rotateArray(rotateCount = 1) {
-    for (var i = 0 ; i < rotateCount; i ++) {
+    for (var i = 0; i < rotateCount; i++) {
         grid = rotateArrayToRightOnce(grid);
     }
 
@@ -193,4 +205,22 @@ function rotateArray(rotateCount = 1) {
             })
         })
     }
+}
+
+function checkGameOver() {
+    if (currentCount !== maxCount) return false;
+
+    for (var i = 0; i < 4; i++) {
+        for (var j = 0; j < 4; j++) {
+            if (grid[i][j] === grid[i][j - 1] ||
+                grid[i][j] === grid[i][j + 1] ||
+                (grid[i-1] && grid[i][j] === grid[i - 1][j]) ||
+                (grid[i+1] && grid[i][j] === grid[i + 1][j])
+            ) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
