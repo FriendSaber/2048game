@@ -17,10 +17,7 @@ for (var i =0; i< 4;i++) {
 
 for (var i = 0;i < 4;i ++) {
     for (var j = 0; j<4;j++) {
-        var graphics = new PIXI.Graphics();
-        graphics.beginFill(0xFF700B, 1);
-        graphics.drawRect(app.renderer.width / 8 + j * 77, app.renderer.height / 8 * 3 + i * 77, 75, 75);
-        app.stage.addChild(graphics);
+        drawCell(i, j);
     }
 }
 
@@ -28,18 +25,33 @@ function generateRandomNumber() {
     return Math.floor(Math.random() * 4);
 }
 
-var x = generateRandomNumber();
-var y = generateRandomNumber();
 
-var graphics = new PIXI.Graphics();
-graphics.beginFill(0xFF0000, 1);
-graphics.drawRect(app.renderer.width / 8 + x  * 77, app.renderer.height / 8 * 3 + y * 77, 75, 75);
-app.stage.addChild(graphics);
+function drawCell(rowIndex, columnIndex) {
+    var color = 0x00FF00;
 
-var number = new PIXI.Text('2', {
-    fontSize: 48
-});
-number.anchor.set(0.5);
-number.x = 75/2 + app.renderer.width/ 8 + x * 77;
-number.y = 75 /2 + app.renderer.height / 8 * 3 + y * 77;
-app.stage.addChild(number);
+    if (grid[rowIndex][columnIndex] == 2) {
+        color = 0xFF0000;
+    }
+
+    var graphics = new PIXI.Graphics();
+    graphics.beginFill(color, 1);
+    graphics.drawRect(app.renderer.width / 8 + columnIndex * 77, app.renderer.height / 8 * 3 + rowIndex * 77, 75, 75);
+    app.stage.addChild(graphics);
+
+    if (grid[rowIndex][columnIndex] != 0) {
+        var number = new PIXI.Text(grid[rowIndex][columnIndex], {
+            fontSize: 48
+        });
+        number.anchor.set(0.5);
+        number.x = 75 / 2 + app.renderer.width / 8 + columnIndex * 77;
+        number.y = 75 / 2 + app.renderer.height / 8 * 3 + rowIndex * 77;
+        app.stage.addChild(number);
+    }
+};
+
+var rowIndex = generateRandomNumber();
+var columnIndex = generateRandomNumber();
+
+grid[rowIndex][columnIndex] = 2;
+
+drawCell(rowIndex, columnIndex);
