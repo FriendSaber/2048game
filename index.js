@@ -97,58 +97,86 @@ addRandomCell();
 
 flushUI();
 
+var onToRightEventHandler = function () {
+    var isChanged = moveCellToRight();
+    if (isChanged) {
+        addRandomCell();
+    }
+    flushUI();
+    if (checkGameOver()) {
+        alert('Game over.');
+    }
+};
+var onToDownEventHandler = function () {
+    rotateArray(3);
+    var isChanged = moveCellToRight();
+    rotateArray(1);
+    if (isChanged) {
+        addRandomCell();
+    }
+    flushUI();
+    if (checkGameOver()) {
+        alert('Game over.');
+    }
+};
+var onToLeftEventHandler = function () {
+    rotateArray(2);
+    var isChanged = moveCellToRight();
+    rotateArray(2);
+    if (isChanged) {
+        addRandomCell();
+    }
+    flushUI();
+    if (checkGameOver()) {
+        alert('Game over.');
+    }
+};
+var onToUpEventHandler = function () {
+    rotateArray(1);
+    var isChanged = moveCellToRight();
+    rotateArray(3);
+    if (isChanged) {
+        addRandomCell();
+    }
+    flushUI();
+    if (checkGameOver()) {
+        alert('Game over.');
+    }
+};
 document.addEventListener('keydown', function (event) {
-    var isChanged;
-
     if (event.key === 'ArrowRight') {
-        isChanged = moveCellToRight();
-        if (isChanged) {
-            addRandomCell();
-        }
-        flushUI();
-        if (checkGameOver()) {
-            alert('Game over.');
-        }
+        onToRightEventHandler();
     }
 
     if (event.key === 'ArrowUp') {
-        rotateArray(1);
-        isChanged = moveCellToRight();
-        rotateArray(3);
-        if (isChanged) {
-            addRandomCell();
-        }
-        flushUI();
-        if (checkGameOver()) {
-            alert('Game over.');
-        }
+        onToUpEventHandler();
     }
 
     if (event.key === 'ArrowLeft') {
-        rotateArray(2);
-        isChanged = moveCellToRight();
-        rotateArray(2);
-        if (isChanged) {
-            addRandomCell();
-        }
-        flushUI();
-        if (checkGameOver()) {
-         alert('Game over.');
-        }
+        onToLeftEventHandler();
     }
 
     if (event.key === 'ArrowDown') {
-        rotateArray(3);
-        isChanged = moveCellToRight();
-        rotateArray(1);
-        if (isChanged) {
-            addRandomCell();
-        }
-        flushUI();
-        if (checkGameOver()) {
-            alert('Game over.');
-        }
+        onToDownEventHandler();
     }
+});
+
+var hammertime = new Hammer.Manager(document, {
+    recognizers: [
+        [Hammer.Swipe, {direction: Hammer.DIRECTION_ALL}]
+    ]
+});
+hammertime.on('swiperight', function() {
+    onToRightEventHandler();
+});
+hammertime.on('swipeup', function () {
+    onToUpEventHandler();
+});
+hammertime.on('swipeleft', function () {
+    onToLeftEventHandler();
+});
+hammertime.on('swipedown', function () {
+    onToDownEventHandler();
 });
 
 function moveCellToRight() {
