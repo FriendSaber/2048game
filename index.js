@@ -12,7 +12,7 @@ app.stage.addChild(basicText);
 
 var grid = [];
 for (var i = 0; i < 4; i++) {
-    grid[i] = [0, 0, 0, 0];
+    grid[i] = [2, 2, 2, 0];
 }
 
 var flushUI = function () {
@@ -55,13 +55,13 @@ function getColorByNumber(number) {
 
     return colorValue[number];
 }
-
-var rowIndex = generateRandomNumber();
-var columnIndex = generateRandomNumber();
-
-grid[rowIndex][columnIndex] = 2;
-
-drawCell(rowIndex, columnIndex);
+//
+// var rowIndex = generateRandomNumber();
+// var columnIndex = generateRandomNumber();
+//
+// grid[rowIndex][columnIndex] = 2;
+//
+// drawCell(rowIndex, columnIndex);
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight') {
@@ -80,10 +80,12 @@ function moveCellToRight() {
                 grid[rowIndex][theEmptyCellIndex] = grid[rowIndex][columnIndex];
                 grid[rowIndex][columnIndex] = 0;
 
-                if (grid[rowIndex][theEmptyCellIndex] === grid[rowIndex][theEmptyCellIndex + 1]) {
-                    grid[rowIndex][theEmptyCellIndex+ 1] += grid[rowIndex][theEmptyCellIndex];
-                    grid[rowIndex][theEmptyCellIndex] = 0;
-                }
+            }
+            var currentIndex = theEmptyCellIndex === -1 ? columnIndex : theEmptyCellIndex;
+
+            if (grid[rowIndex][currentIndex] === grid[rowIndex][currentIndex + 1]) {
+                grid[rowIndex][currentIndex+ 1] += grid[rowIndex][currentIndex];
+                grid[rowIndex][currentIndex] = 0;
             }
 
         }
