@@ -4,6 +4,8 @@ document.body.appendChild(app.view);
 var maxCount = 16;
 var currentCount = 0;
 
+var score = 0;
+
 var basicText = new PIXI.Text('2058', {
     fontSize: 48
 });
@@ -12,6 +14,14 @@ basicText.x = app.renderer.width / 2;
 basicText.y = app.renderer.height / 4;
 
 app.stage.addChild(basicText);
+
+var scoreText = new PIXI.Text('Score: ' + score, {
+    fontSize: 48
+});
+scoreText.anchor.set(0.5);
+scoreText.x = app.renderer.width / 2;
+scoreText.y = app.renderer.height / 10 * 9;
+app.stage.addChild(scoreText);
 
 var grid = [];
 for (var i = 0; i < 4; i++) {
@@ -24,6 +34,8 @@ var flushUI = function () {
             drawCell(i, j);
         }
     }
+
+    scoreText.text = 'Score: ' + score;
 };
 flushUI();
 
@@ -145,6 +157,8 @@ function moveCellToRight() {
             if (grid[rowIndex][currentIndex] === grid[rowIndex][currentIndex + 1]) {
                 grid[rowIndex][currentIndex+ 1] += grid[rowIndex][currentIndex];
                 grid[rowIndex][currentIndex] = 0;
+
+                score += grid[rowIndex][currentIndex + 1];
 
                 isChanged = true;
 
