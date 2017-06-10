@@ -12,7 +12,7 @@ app.stage.addChild(basicText);
 
 var grid = [];
 for (var i = 0; i < 4; i++) {
-    grid[i] = [2, 2, 2, 0];
+    grid[i] = [0, 0, 0, 0];
 }
 
 var flushUI = function () {
@@ -55,13 +55,13 @@ function getColorByNumber(number) {
 
     return colorValue[number];
 }
-//
-// var rowIndex = generateRandomNumber();
-// var columnIndex = generateRandomNumber();
-//
-// grid[rowIndex][columnIndex] = 2;
-//
-// drawCell(rowIndex, columnIndex);
+
+var rowIndex = generateRandomNumber();
+var columnIndex = generateRandomNumber();
+
+grid[rowIndex][columnIndex] = 2;
+
+drawCell(rowIndex, columnIndex);
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight') {
