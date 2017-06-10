@@ -55,3 +55,9 @@ var columnIndex = generateRandomNumber();
 grid[rowIndex][columnIndex] = 2;
 
 drawCell(rowIndex, columnIndex);
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'ArrowRight') {
+      console.log(event);
+  }
+});
