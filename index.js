@@ -70,7 +70,7 @@ var addRandomCell = function () {
         rowIndex = generateRandomNumber();
         columnIndex = generateRandomNumber();
     }
-    
+
     grid[rowIndex][columnIndex] = 2;
 };
 
