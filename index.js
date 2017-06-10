@@ -86,38 +86,50 @@ addRandomCell();
 flushUI();
 
 document.addEventListener('keydown', function (event) {
+    var isChanged;
+
     if (event.key === 'ArrowRight') {
-        moveCellToRight();
-        addRandomCell();
+        isChanged = moveCellToRight();
+        if (isChanged) {
+            addRandomCell();
+        }
         flushUI();
     }
 
     if (event.key === 'ArrowUp') {
         rotateArray(1);
-        moveCellToRight();
+        isChanged = moveCellToRight();
         rotateArray(3);
-        addRandomCell();
+        if (isChanged) {
+            addRandomCell();
+        }
         flushUI();
     }
 
     if (event.key === 'ArrowLeft') {
         rotateArray(2);
-        moveCellToRight();
+        isChanged = moveCellToRight();
         rotateArray(2);
-        addRandomCell();
+        if (isChanged) {
+            addRandomCell();
+        }
         flushUI();
     }
 
     if (event.key === 'ArrowDown') {
         rotateArray(3);
-        moveCellToRight();
+        isChanged = moveCellToRight();
         rotateArray(1);
-        addRandomCell();
+        if (isChanged) {
+            addRandomCell();
+        }
         flushUI();
     }
 });
 
 function moveCellToRight() {
+    var isChanged = false;
+
     for (var rowIndex = 0; rowIndex < 4; rowIndex++) {
         for (var columnIndex = 2; columnIndex >= 0; columnIndex--) {
             if (grid[rowIndex][columnIndex] === 0) continue;
@@ -126,7 +138,7 @@ function moveCellToRight() {
             if (theEmptyCellIndex !== -1) {
                 grid[rowIndex][theEmptyCellIndex] = grid[rowIndex][columnIndex];
                 grid[rowIndex][columnIndex] = 0;
-
+                isChanged = true;
             }
             var currentIndex = theEmptyCellIndex === -1 ? columnIndex : theEmptyCellIndex;
 
@@ -134,11 +146,15 @@ function moveCellToRight() {
                 grid[rowIndex][currentIndex+ 1] += grid[rowIndex][currentIndex];
                 grid[rowIndex][currentIndex] = 0;
 
+                isChanged = true;
+
                 currentCount--;
             }
 
         }
     }
+
+    return isChanged;
 }
 
 function findTheFirstRightCell(rowIndex, columnIndex) {
