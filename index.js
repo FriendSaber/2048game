@@ -51,22 +51,38 @@ function getColorByNumber(number) {
         0: 0x00FF00,
         2: 0xFF0000,
         4: 0x0000FF,
-        8: 0xFFFF00
+        8: 0xFFFF00,
     };
 
-    return colorValue[number];
+    var color = colorValue[number];
+    if (color === undefined) {
+        color = 0xff0fff;
+    }
+
+    return color;
 }
 
-var rowIndex = generateRandomNumber();
-var columnIndex = generateRandomNumber();
+var addRandomCell = function () {
+    var rowIndex = generateRandomNumber();
+    var columnIndex = generateRandomNumber();
 
-grid[rowIndex][columnIndex] = 2;
+    while (grid[rowIndex][columnIndex] !== 0 ) {
+        rowIndex = generateRandomNumber();
+        columnIndex = generateRandomNumber();
+    }
+    
+    grid[rowIndex][columnIndex] = 2;
+};
 
-drawCell(rowIndex, columnIndex);
+addRandomCell();
+addRandomCell();
+
+flushUI();
 
 document.addEventListener('keydown', function (event) {
     if (event.key === 'ArrowRight') {
         moveCellToRight();
+        addRandomCell();
         flushUI();
     }
 
@@ -74,6 +90,7 @@ document.addEventListener('keydown', function (event) {
         rotateArray(1);
         moveCellToRight();
         rotateArray(3);
+        addRandomCell();
         flushUI();
     }
 
@@ -81,6 +98,7 @@ document.addEventListener('keydown', function (event) {
         rotateArray(2);
         moveCellToRight();
         rotateArray(2);
+        addRandomCell();
         flushUI();
     }
 
@@ -88,6 +106,7 @@ document.addEventListener('keydown', function (event) {
         rotateArray(3);
         moveCellToRight();
         rotateArray(1);
+        addRandomCell();
         flushUI();
     }
 });
