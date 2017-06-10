@@ -1,6 +1,9 @@
 var app = new PIXI.Application(window.innerWidth, window.innerHeight, {backgroundColor: 0x1099bb});
 document.body.appendChild(app.view);
 
+var maxCount = 16;
+var currentCount = 0;
+
 var basicText = new PIXI.Text('2058', {
     fontSize: 48
 });
@@ -63,6 +66,8 @@ function getColorByNumber(number) {
 }
 
 var addRandomCell = function () {
+    if (currentCount === maxCount) return;
+
     var rowIndex = generateRandomNumber();
     var columnIndex = generateRandomNumber();
 
@@ -72,6 +77,7 @@ var addRandomCell = function () {
     }
 
     grid[rowIndex][columnIndex] = 2;
+    currentCount++;
 };
 
 addRandomCell();
@@ -127,6 +133,8 @@ function moveCellToRight() {
             if (grid[rowIndex][currentIndex] === grid[rowIndex][currentIndex + 1]) {
                 grid[rowIndex][currentIndex+ 1] += grid[rowIndex][currentIndex];
                 grid[rowIndex][currentIndex] = 0;
+
+                currentCount--;
             }
 
         }
